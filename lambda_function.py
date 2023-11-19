@@ -27,8 +27,11 @@ def handler(event, context):
     prev_job.close_connection()
 
     return {
-        'statusCode': 200,
-        'data': resultado_previsao
+        "statusCode": 200,
+        "body": json.dumps({
+            "message": "Previsão de faturamento",
+            "resultado_previsao": resultado_previsao
+        }),
     }
 
    
