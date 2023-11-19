@@ -1,7 +1,6 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
-from connection import DatabaseConnection
 
 class PrevJob:
     def calcular_ganho_diario(self, id_condutor):
@@ -141,25 +140,4 @@ class PrevJob:
 
         vlr_previsto = md.predict([[excl, prop, qtd_dias_trabalhados, ganho_diario]])
 
-        return vlr_previsto
-    
-# db = DatabaseConnection(
-#     host="carllet-dev.cygduzvreboa.us-east-2.rds.amazonaws.com",
-#     database="development",
-#     user="postgres",
-#     password="0*6Q8uJxI95OSyc$"
-# )
-
-# test_inst = PrevJob()
-# test_inst.connection = db.connection 
-
-# ganho_diario = test_inst.calcular_ganho_diario('2c244f97-0446-47f3-bb09-eb918ee84cef')
-# prop = test_inst.relac_propriedade('2c244f97-0446-47f3-bb09-eb918ee84cef')
-# excl =  test_inst.exclusividade('2c244f97-0446-47f3-bb09-eb918ee84cef')
-# qtd_dias = test_inst.qtd_dias_trab('2c244f97-0446-47f3-bb09-eb918ee84cef')
-
-# resultado_previsao = test_inst.previsao_faturamento(excl, prop, qtd_dias, ganho_diario)
-
-# print(f"previsão de faturamento liquido: {resultado_previsao}")
-
-# test_inst.close_connection()
+        return vlr_previsto[0]

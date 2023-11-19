@@ -11,16 +11,16 @@ db = DatabaseConnection(
 )
 
 def handler(event, context): 
-    
-    eventBody = json.loads(event['body'])
-
+    eventBody = json.loads(event["body"])
+    userId = eventBody["userId"]
+  
     prev_job = PrevJob()
     prev_job.connection = db.connection 
 
-    ganho_diario = prev_job.calcular_ganho_diario(eventBody['userId'])
-    prop = prev_job.relac_propriedade(eventBody['userId'])
-    excl =  prev_job.exclusividade(eventBody['userId'])
-    qtd_dias = prev_job.qtd_dias_trab(eventBody['userId'])
+    ganho_diario = prev_job.calcular_ganho_diario(userId)
+    prop = prev_job.relac_propriedade(userId)
+    excl =  prev_job.exclusividade(userId)
+    qtd_dias = prev_job.qtd_dias_trab(userId)
 
     resultado_previsao = prev_job.previsao_faturamento(excl, prop, qtd_dias, ganho_diario)
 
@@ -29,8 +29,7 @@ def handler(event, context):
     return {
         "statusCode": 200,
         "body": json.dumps({
-            "message": "Previsão de faturamento",
-            "resultado_previsao": resultado_previsao
+            "prevision_result": resultado_previsao
         }),
     }
 
