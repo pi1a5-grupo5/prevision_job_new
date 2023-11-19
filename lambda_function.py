@@ -11,14 +11,16 @@ db = DatabaseConnection(
 )
 
 def handler(event, context): 
-    print(f"teste inicio funcao")
+    
+    eventBody = json.loads(event['body'])
+
     prev_job = PrevJob()
     prev_job.connection = db.connection 
 
-    ganho_diario = prev_job.calcular_ganho_diario('2c244f97-0446-47f3-bb09-eb918ee84cef')
-    prop = prev_job.relac_propriedade('2c244f97-0446-47f3-bb09-eb918ee84cef')
-    excl =  prev_job.exclusividade('2c244f97-0446-47f3-bb09-eb918ee84cef')
-    qtd_dias = prev_job.qtd_dias_trab('2c244f97-0446-47f3-bb09-eb918ee84cef')
+    ganho_diario = prev_job.calcular_ganho_diario(eventBody['userId'])
+    prop = prev_job.relac_propriedade(eventBody['userId'])
+    excl =  prev_job.exclusividade(eventBody['userId'])
+    qtd_dias = prev_job.qtd_dias_trab(eventBody['userId'])
 
     resultado_previsao = prev_job.previsao_faturamento(excl, prop, qtd_dias, ganho_diario)
 
