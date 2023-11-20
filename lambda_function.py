@@ -1,19 +1,22 @@
 import sys
+import logging
 import json
 from funcao_previsao import PrevJob
 from connection import DatabaseConnection
 
-db = DatabaseConnection(
-    host="carllet-dev.cygduzvreboa.us-east-2.rds.amazonaws.com",
-    database="development",
-    user="postgres",
-    password="0*6Q8uJxI95OSyc$"
-)
-
 def handler(event, context): 
     eventBody = json.loads(event["body"])
     userId = eventBody["userId"]
+
+    db = DatabaseConnection(
+        host="carllet-dev.cygduzvreboa.us-east-2.rds.amazonaws.com",
+        database="development",
+        user="postgres",
+        password="0*6Q8uJxI95OSyc$"
+    )
   
+    print("Connected to DB -> ", db.connection.status)
+
     prev_job = PrevJob()
     prev_job.connection = db.connection 
 
@@ -24,7 +27,8 @@ def handler(event, context):
 
     resultado_previsao = prev_job.previsao_faturamento(excl, prop, qtd_dias, ganho_diario)
 
-    prev_job.close_connection()
+    db.connection.close()
+    print("Connection closed -> ", db.connection.status)
 
     return {
         "statusCode": 200,
@@ -32,7 +36,5 @@ def handler(event, context):
             "prevision_result": resultado_previsao
         }),
     }
-
-   
 
     

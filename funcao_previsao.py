@@ -123,9 +123,6 @@ class PrevJob:
         data = cursor.fetchall()
         df = pd.DataFrame(data, columns=columns)
         return df
-    
-    def close_connection(self):
-        self.connection.close()
 
     def previsao_faturamento(self, excl, prop, qtd_dias_trabalhados, ganho_diario):
         df = self.dataset()
